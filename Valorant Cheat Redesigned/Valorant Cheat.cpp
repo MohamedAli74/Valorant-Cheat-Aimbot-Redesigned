@@ -41,6 +41,8 @@ struct MyPlayer_t
 	}
 }MyPlayer;
 
+
+
 struct TargetList_t
 {
 	float Distance;
@@ -50,21 +52,19 @@ struct TargetList_t
 
 	TargetList_t(float aimbotAngle[], float myCoords[], float enemyCoords[])
 	{
-		Distance = Get3dDistance(myCoords[0], myCoords[1], myCoords[2],
-			enemyCoords[0], enemyCoords[1], enemyCoords[2]);
+		Distance = Get3dDistance(myCoords[],enemyCoords[]);
 
 		AimbotAngle[0] = aimbotAngle[0];
 		AimbotAngle[1] = aimbotAngle[1];
 		AimbotAngle[2] = aimbotAngle[2];
 	}
 
-	float Get3dDistance(float myCoordsX, float myCoordsZ, float myCoordsY,
-		float eNx, float eNz, float eNy)
+	float Get3dDistance(float myCoords[],float enemyCoords[])
 	{
 		return (float)sqrt(
-			pow(double(eNx - myCoordsX), 2.0) +
-			pow(double(eNy - myCoordsY), 2.0) +
-			pow(double(eNz - myCoordsZ), 2.0));
+			pow(double(enemyCoords[0] - myCoords[0]), 2.0) +
+			pow(double(enemyCoords[1] - myCoords[1]), 2.0) +
+			pow(double(enemyCoords[2] - myCoords[2]), 2.0));
 	}
 };
 
