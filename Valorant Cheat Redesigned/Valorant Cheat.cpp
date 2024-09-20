@@ -31,14 +31,7 @@ struct MyPlayer_t
 	int Team;
 	int Health;
 	float Position[3];
-	void ReadInformation()
-	{
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(fProcess.__dwordClient + Player_Base), &CLocalPlayer, sizeof(CLocalPlayer), 0);
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CLocalPlayer + dw_mTeamOffset), &Team, sizeof(Team), 0);
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CLocalPlayer + dw_Health), &Health, sizeof(Health), 0);
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CLocalPlayer + dw_Pos), &Position, sizeof(float[3]), 0);
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(fProcess.__dwordEngine + dw_PlayerCountOffs), &NumOfPlayers, sizeof(int), 0);
-	}
+	ReadInformation(-1);
 }MyPlayer;
 
 struct TargetList_t
@@ -77,13 +70,7 @@ struct PlayerList_t
 	float AimbotAngle[3];
 	char Name[39];
 
-	void ReadInformation(int Player)
-	{
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(fProcess.__dwordClient + EntityPlayer_Base + (Player * EntityLoopDistance)), &CBaseEntity, sizeof(DWORD), 0);
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CBaseEntity + dw_mTeamOffset), &Team, sizeof(int), 0);
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CBaseEntity + dw_Health), &Health, sizeof(int), 0);
-		ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CBaseEntity + dw_Pos), &Position, sizeof(float[3]), 0);
-	}
+	ReadInformation(int Player);
 }PlayerList[32];
 
 struct CompareTargetEnArray
