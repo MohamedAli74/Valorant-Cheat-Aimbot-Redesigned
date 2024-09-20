@@ -27,7 +27,27 @@ public:
     {
         return (x * dot.x + y * dot.y + z * dot.z);
     }
+   public void ReadInformation(int Player)
+{
+    DWORD BaseAddress;
 
+    if (Player == -1) // If Player is -1, read local player information
+    {
+        BaseAddress = fProcess.__dwordClient + Player_Base;
+    }else
+    {
+        BaseAddress = fProcess.__dwordClient + EntityPlayer_Base + (Player * EntityLoopDistance);
+    }
+    ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)BaseAddress, &CBaseEntity, sizeof(DWORD), 0);
+    ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CBaseEntity + dw_mTeamOffset), &Team, sizeof(Team), 0);
+    ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CBaseEntity + dw_Health), &Health, sizeof(Health), 0);
+    ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(CBaseEntity + dw_Pos), &Position, sizeof(float[3]), 0);
+
+    // Optionally read the number of players, only relevant for the local player
+    if (Player == -1) {
+        ReadProcessMemory(fProcess.__HandleProcess, (BYTE*)(fProcess.__dwordEngine + dw_PlayerCountOffs), &NumOfPlayers, sizeof(int), 0);
+    }
+}
 };
 
 struct Colors
